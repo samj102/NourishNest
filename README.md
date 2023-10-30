@@ -1,12 +1,13 @@
 <p align="center">
   <a href="">
-    <img src="https://upload.brndn.ly/u/6teAbe.png" alt="Logo" width=72 height=72>
+    <img src="https://upload.brndn.ly/u/6teAbe.png" alt="Logo" width=150>
   </a>
+</p>
 
-<h3 align="center">Nourish Nest</h3>
+<h1 align="center">Nourish Nest</h1>
 
-  <p align="center">
-    Short description
+  <p align="center" >
+    <i>Meal planning has never been so easy.</i>
     <br>
   </p>
 
