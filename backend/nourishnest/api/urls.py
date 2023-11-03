@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import RecipeView
+from .views import GlobalRecipeView
 
 urlpatterns = [
-    path('globalrecipes', RecipeView.as_view())
+    path('globalrecipes', GlobalRecipeView.as_view())
 ]

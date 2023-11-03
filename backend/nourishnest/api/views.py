@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from .models import Recipe
+from .models import GlobalRecipe
 from rest_framework import generics
-from .serializers import RecipeSerializer
+from .serializers import GlobalRecipeSerializer
 from django.db.models import Q
 
 
 # Create your views here.
-class RecipeView(generics.ListAPIView):
-    queryset = Recipe.objects.filter(Q(usercreated=False))
-    serializer_class = RecipeSerializer
+class GlobalRecipeView(generics.ListAPIView):
+    queryset = GlobalRecipe.objects.all()
+    serializer_class = GlobalRecipeSerializer
