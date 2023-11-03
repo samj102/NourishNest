@@ -9,6 +9,7 @@ class Recipe(models.Model):
     cuisine = models.CharField(max_length=50, null=False, editable=True)
     ingredients = models.TextField()
     steps = models.TextField()
+    usercreated = models.BooleanField(null=False, default = False)
 
 # Saved Recipes
 class SavedRecipes(models.Model):
