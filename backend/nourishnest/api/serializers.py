@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import GlobalRecipe
+from .models import GlobalRecipe, UserPersonalInfo
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -26,7 +26,20 @@ class UserLoginSerializer(serializers.Serializer):
             raise Exception('User not found')
         return user
 
-class UserSerializer(serializers.ModelSerializer):
+
+class UserPersonalInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPersonalInfo
+        fields = ('height', 'weight', 'restrictions')
+    
+    def create(self, data):
+        user = self.context['request'].user
+        info = UserPersonalInfo.objects.create(user=user, **data)
+        info.save()
+        return info
+
+class UserViewSerializer(serializers.ModelSerializer):
+    personal_info = UserPersonalInfoSerializer()
     class Meta:
         model = User
-        fields = ('email', 'username')
+        fields = ('email', 'username', 'personal_info')
