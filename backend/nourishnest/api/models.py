@@ -24,7 +24,4 @@ class SavedRecipe(models.Model):
 class Scheduled(models.Model):
     recipe = models.ForeignKey(SavedRecipe, null=True, db_index=True, on_delete=models.CASCADE, editable=True)
     user = models.ForeignKey(User, null=False, db_index=True, on_delete=models.CASCADE)
-    day = models.CharField(null=False, max_length=9, editable=True)
-    meal = models.CharField(null=False, max_length=10, editable=True)
-    class Meta:
-        UniqueConstraint('user', 'day', 'meal', name="unique_user_scheduled_meal")
+    date = models.DateField(auto_now=False, auto_now_add=False, null=False, editable=True)
