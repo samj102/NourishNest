@@ -1,0 +1,9 @@
+API calls:
+
+api/register       - register user, post request must be sent with json data with "username", "password" and "email" keys
+api/login          - login user, post request must be sent with json data with "username" and "password" keys
+api/logout         - logout user, post request must be sent, no data required
+api/user           - view current user with personal info, get request
+api/personalinfo   - view current user personal info, get request
+                   - create personal info for current user, post request must be sent with json data with "height" and "weight" keys, optionally, "restriction" key may also be used which expects a list in json format with all the users dietary restrictions
+api/globalrecipes  - view all global recipes, get request
