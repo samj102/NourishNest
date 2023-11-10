@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import GlobalRecipe, UserPersonalInfo
+from .models import GlobalRecipe, UserPersonalInfo, SavedRecipe
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -43,3 +43,20 @@ class UserViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'username', 'personal_info')
+
+class CreateSavedRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavedRecipe
+        fields = '__all__'
+
+    def create(self, data):
+        user = self.context['request'].user
+        saved_recipe = SavedRecipe.objects.create(user=user, **data)
+        saved_recipe.save()
+        return saved_recipe
+    
+class SavedRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavedRecipe
+        fields = ('id', 'name', 'tags', 'ingredients', 'steps', 'calories')
+        read_only_fields = ('user',)

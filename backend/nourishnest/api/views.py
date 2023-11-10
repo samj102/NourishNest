@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model, login, logout
-from .models import GlobalRecipe, UserPersonalInfo
+from .models import GlobalRecipe, UserPersonalInfo, SavedRecipe
 from rest_framework import generics, permissions, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import GlobalRecipeSerializer, UserRegisterSerializer, UserLoginSerializer, UserViewSerializer, UserPersonalInfoSerializer
+from .serializers import *
 from django.db.models import Q # For filtering
 
 
@@ -59,3 +59,21 @@ class UserPersonalInfoCreate(APIView):
             if personal_info:
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+
+class SavedRecipeView(generics.ListAPIView):
+    serializer_class = SavedRecipeSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
+
+    def get_queryset(self):
+        user = self.request.user
+        return SavedRecipe.objects.filter(user=user)
+    
+class SavedRecipeCreateView(generics.CreateAPIView):
+    serializer_class = SavedRecipeSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

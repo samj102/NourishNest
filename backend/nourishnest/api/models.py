@@ -16,7 +16,7 @@ class GlobalRecipe(models.Model):
     tags = models.JSONField(editable=True)
     ingredients = models.JSONField(null=False, editable=True)
     calories = models.PositiveSmallIntegerField(editable=True, default=0)
-    steps = models.TextField(editable=True)
+    steps = models.JSONField(null=False, editable=True)
 
 # Saved Recipes
 # When Users save a global recipe, a copy will be stored to their saved recipes, which they can make changes to
@@ -24,7 +24,7 @@ class SavedRecipe(models.Model):
     name = models.CharField(max_length=50, null=False, editable=True)
     tags = models.JSONField(editable=True)
     ingredients = models.JSONField(null=False, editable=True)
-    steps = models.TextField(editable=True)
+    steps = models.JSONField(null=False, editable=True)
     calories = models.PositiveSmallIntegerField(editable=True, default=0)
     user = models.ForeignKey(User, null=False, db_index=True, on_delete=models.CASCADE)
     
