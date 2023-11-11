@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import GlobalRecipe, UserPersonalInfo, SavedRecipe
+from .models import GlobalRecipe, UserPersonalInfo, SavedRecipe, Scheduled
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -42,7 +42,7 @@ class UserViewSerializer(serializers.ModelSerializer):
     personal_info = UserPersonalInfoSerializer()
     class Meta:
         model = User
-        fields = ('email', 'username', 'personal_info')
+        fields = ('id','email', 'username', 'personal_info')
 
 class CreateSavedRecipeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,3 +60,22 @@ class SavedRecipeSerializer(serializers.ModelSerializer):
         model = SavedRecipe
         fields = ('id', 'name', 'tags', 'ingredients', 'steps', 'calories')
         read_only_fields = ('user',)
+    
+class SavedRecipeUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavedRecipe
+        fields = ('name', 'tags', 'ingredients', 'steps', 'calories')
+
+
+class ScheduledSerializer(serializers.ModelSerializer):
+    recipe = SavedRecipeSerializer()
+    class Meta:
+        model = Scheduled
+        fields = ['id', 'recipe', 'user', 'date']
+
+    def validate_recipe(self, value):
+        try:
+            SavedRecipe.objects.get(pk=value)
+        except SavedRecipe.DoesNotExist:
+            raise serializers.ValidationError("Invalid saved recipe ID. Recipe does not exist.")
+        return value
