@@ -1,6 +1,6 @@
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { AppBar, Toolbar, Button } from '@mui/material';
 import { Link as Link, useNavigate } from 'react-router-dom';
-import Logo from '../assets/logo.png';
+import TextLogo from './TextLogo.jsx';
 
 const Navbar = () => {
     // Check if CSRF token is present in localStorage
@@ -15,12 +15,7 @@ const Navbar = () => {
     return (
         <AppBar style={{ background: '#f3f4f6', boxShadow: '0px 3px 5px rgba(0,0,0,0.2)' }}>
             <Toolbar>
-                <Link to="/" style={{ color: 'black', textDecoration: 'none', display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-                    <img src={Logo} alt="Logo" style={{ marginRight: 10, height: '1.5em' }} />
-                    <Typography variant="h6" fontWeight='500'>
-                        Nourish Nest
-                    </Typography>
-                </Link>
+                <TextLogo/>
                 {isLoggedIn ? (
                     <>
                         <Button style={{ color: "black", marginRight: '0.4em'}} no wrap variant={"text"} component={Link} to="/my-recipes">My Recipes</Button>
