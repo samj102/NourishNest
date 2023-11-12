@@ -7,6 +7,7 @@ urlpatterns = [
     path('logout', UserLogout.as_view()),
     path('user', UserView.as_view()),
     path('personalinfo', UserPersonalInfoCreate.as_view()),
+    path('personalinfo/update', UserPersonalInfoUpdate.as_view()),
     path('globalrecipes', GlobalRecipeView.as_view()),
     path('savedrecipes', SavedRecipeView.as_view()),
     path('savedrecipes/create', SavedRecipeCreateView.as_view()),

@@ -38,6 +38,11 @@ class UserPersonalInfoSerializer(serializers.ModelSerializer):
         info.save()
         return info
 
+class UserPersonalInfoUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPersonalInfo
+        fields = ('height', 'weight', 'restrictions')
+
 class UserViewSerializer(serializers.ModelSerializer):
     personal_info = UserPersonalInfoSerializer()
     class Meta:
@@ -58,14 +63,13 @@ class CreateSavedRecipeSerializer(serializers.ModelSerializer):
 class SavedRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedRecipe
-        fields = ('id', 'name', 'tags', 'ingredients', 'steps', 'calories')
+        fields = ('id', 'name', 'tags', 'ingredients', 'steps', 'calories', 'image')
         read_only_fields = ('user',)
     
 class SavedRecipeUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedRecipe
-        fields = ('name', 'tags', 'ingredients', 'steps', 'calories')
-
+        fields = ('name', 'tags', 'ingredients', 'steps', 'calories', 'image')
 
 class ScheduledSerializer(serializers.ModelSerializer):
     recipe = SavedRecipeSerializer()

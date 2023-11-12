@@ -90,6 +90,24 @@ class UserPersonalInfoCreate(APIView):
         except serializers.ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
+class UserPersonalInfoUpdate(generics.UpdateAPIView):
+    serializer_class = UserPersonalInfoUpdateSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
+    # overrides queryset default method
+    def get_queryset(self):
+        user = self.request.user
+        return UserPersonalInfo.objects.filter(user=user)
+    
+    def get_object(self):
+        queryset = self.get_queryset()
+        p_info = queryset.first()
+
+        if not p_info:
+            p_info = UserPersonalInfo(user=self.request.user) # creates blank object if personal info doesn't exist
+            p_info.save()
+
+        return p_info
 
 class SavedRecipeView(generics.ListAPIView):
     serializer_class = SavedRecipeSerializer
@@ -131,6 +149,11 @@ class SavedRecipeDeleteView(generics.DestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         return SavedRecipe.objects.filter(user=user)
+    # overrides delete to ensure image is also deleted
+    def perform_destroy(self, instance):
+        if instance.image:
+            instance.image.delete()
+        super().perform_destroy(instance)
 
 class SavedRecipeUpdateView(generics.UpdateAPIView):
     serializer_class = SavedRecipeSerializer
