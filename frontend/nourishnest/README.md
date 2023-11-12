@@ -2,7 +2,7 @@
 
 ## Development
 1. Clone the repo
-2. CD into the frontend directory
+2. CD into the `frontend/nourishnest` directory
 3. Run `npm install`
 4. Run `npm run dev` to start the dev server.
 
@@ -16,3 +16,4 @@ The project uses the following stack:
 
 Vite plugins: 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@react-router-dom](https://reactrouter.com/web/guides/quick-start) for routing
