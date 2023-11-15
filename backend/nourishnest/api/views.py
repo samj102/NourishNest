@@ -31,6 +31,30 @@ class GlobalRecipeView(generics.ListAPIView):
 
         return queryset
 
+class GlobalRecipeCreateView(generics.CreateAPIView): 
+    serializer_class = GlobalRecipeSerializer
+    permission_class = (permissions.IsAdminUser,)
+    authentication_classes = (SessionAuthentication,)  
+    
+    def perform_create(self, serializer):
+        serializer.save()        
+
+class GlobalRecipeDeleteView(generics.DestroyAPIView):
+    serializer_class = GlobalRecipeSerializer
+    permission_classes = (permissions.IsAdminUser,)
+    authentication_classes = (SessionAuthentication,)
+
+    def get_queryset(self):
+        return GlobalRecipe.objects.all()
+
+class GlobalRecipeUpdateView(generics.UpdateAPIView):
+    serializer_class = GlobalRecipeSerializer
+    permission_class = (permissions.IsAdminUser,)
+    authentication_class = (SessionAuthentication)
+
+    def get_queryset(self):
+        return GlobalRecipe.objects.all()
+              
 class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request):
@@ -154,7 +178,7 @@ class SavedRecipeDeleteView(generics.DestroyAPIView):
         if instance.image:
             instance.image.delete()
         super().perform_destroy(instance)
-
+    
 class SavedRecipeUpdateView(generics.UpdateAPIView):
     serializer_class = SavedRecipeSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -163,8 +187,7 @@ class SavedRecipeUpdateView(generics.UpdateAPIView):
     def get_queryset(self):
         user = self.request.user
         return SavedRecipe.objects.filter(user=user)
-    
-
+            
 class ScheduledCreateView(generics.CreateAPIView):
     serializer_class = ScheduledSerializer
     permission_classes = (permissions.IsAuthenticated,)

@@ -9,6 +9,9 @@ urlpatterns = [
     path('personalinfo', UserPersonalInfoCreate.as_view()),
     path('personalinfo/update', UserPersonalInfoUpdate.as_view()),
     path('globalrecipes', GlobalRecipeView.as_view()),
+    path('globalrecipes/create', GlobalRecipeCreateView.as_view()),
+    path('globalrecipes/<int:pk>/delete', GlobalRecipeDeleteView.as_view()),
+    path('globalrecipes/<int:pk>/update', GlobalRecipeUpdateView.as_view()),
     path('savedrecipes', SavedRecipeView.as_view()),
     path('savedrecipes/create', SavedRecipeCreateView.as_view()),
     path('savedrecipes/<int:pk>/delete', SavedRecipeDeleteView.as_view()), # <int:pk> is for id primary key of the saved recipe
