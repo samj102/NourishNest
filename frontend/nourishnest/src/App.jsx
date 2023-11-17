@@ -4,6 +4,7 @@ import Footer from './components/footer';
 import Index from './pages/index';
 import Login from './pages/login';
 import NotFound from './pages/NotFound';
+import Register from './pages/register';
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -18,6 +19,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Index/>}/>
                             <Route path="/login" element={<Login/>}/>
+                            <Route path="/register" element={<Register/>}/>
                             <Route path="*" element={<NotFound/>}/>
                         </Routes>
                     </Box>
