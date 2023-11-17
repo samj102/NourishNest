@@ -1,7 +1,7 @@
 import {Alert, Box, Button, Checkbox, Container, FormControlLabel, Link, TextField, Typography} from "@mui/material";
 import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {getCookie} from "../utils";
+import {getCookie, getCSRFToken} from "../utils";
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -10,15 +10,12 @@ const Login = () => {
     const navigate = useNavigate();
 
     function loginUser(credentials) {
-        // csrf protection
-
-        const csrftoken = getCookie('csrftoken');
 
         return fetch('http://localhost:8000/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken,
+                'X-CSRFToken': getCSRFToken(),
             },
             body: JSON.stringify(credentials),
             credentials: 'include'
