@@ -10,6 +10,19 @@ api/personalinfo/update - update personal info for user, no pk required because 
                         - ie. this would be valid data for a request to update just the users weight: { 'weight' : float }
 api/globalrecipes  - view all global recipes, get request, filter with ? at the end of the api call
                    - ex. http://127.0.0.1:8000/api/globalrecipes?name=Pasta&tags=Italian,Vegetarian&ingredients=Tomato,Sauce
+api/globalrecipes/create - create global recipe for all users, post request
+                    - data format:
+                            {
+                            "name": "",
+                            "tags": [ { "tag": "" } ],
+                            "ingredients": [ { "ingredient": "", "quantity": "" } ],
+                            "calories": int,
+                            "steps": [ { "step": "", "name": "" }],
+                            "image" : "path/to/image"
+                            }
+api/globalrecipes/<int:pk>/delete - delete global recipe for all users, delete request 
+api/globalrecipes/<int:pk>/update - update global recipe for all users, put request
+                                  - sent with specific attributes you want to update
 api/savedrecipes  - view all users saved recipes, get request, filter with ? at the end of the api call
                    - ex. http://127.0.0.1:8000/api/savedrecipes?name=Pasta&tags=Italian,Vegetarian&ingredients=Tomato,Sauce
 api/savedrecipes/create  - create saved recipe for logged in user, post request
