@@ -5,6 +5,7 @@ import Index from './pages/index';
 import Login from './pages/login';
 import NotFound from './pages/NotFound';
 import Register from './pages/register';
+import CreateRecipe from './pages/create-recipe';
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -20,6 +21,7 @@ function App() {
                             <Route path="/" element={<Index/>}/>
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/register" element={<Register/>}/>
+                            <Route path="/create-recipe" element={<CreateRecipe/>}/>
                             <Route path="*" element={<NotFound/>}/>
                         </Routes>
                     </Box>

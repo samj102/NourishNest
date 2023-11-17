@@ -13,4 +13,8 @@ function getCookie(name) {
     return cookieValue;
 }
 
-export { getCookie };
+function getCSRFToken() {
+    return getCookie('csrftoken')
+}
+
+export { getCookie, getCSRFToken };
