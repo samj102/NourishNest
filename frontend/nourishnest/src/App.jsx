@@ -6,13 +6,11 @@ import Login from './pages/login';
 import NotFound from './pages/NotFound';
 import './App.css';
 import {Box} from "@mui/material";
-import {AuthProvider} from "./AuthContext.jsx";
 
 
 
 function App() {
     return (
-        <AuthProvider>
             <Router>
                 <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <Navbar />
@@ -26,7 +24,6 @@ function App() {
                     <Footer/>
                 </Box>
             </Router>
-        </AuthProvider>
     );
 }
 

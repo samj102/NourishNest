@@ -59,6 +59,7 @@ const Login = () => {
                 "username": username,
                 "password": password,
             });
+            localStorage.setItem('isAuthenticated', "true");
             navigate("/"); // Redirect to home page on successful login
         } catch (err) {
             setError(err.message || "Failed to login"); // Display error message from server
@@ -89,9 +90,11 @@ const Login = () => {
 
                     <Button type={'submit'} fullWidth variant={'contained'} sx={{ mt: 3, mb: 2 }}>Login</Button>
 
-                    <Link href={'#'} variant={'body2'}>
-                        <RouterLink to={'/register'}>Don't have an account? Sign Up</RouterLink>
-                    </Link>
+                    <RouterLink to={'/register'}>
+                        <Typography variant='p'>
+                            Don't have an account? Sign Up
+                        </Typography>
+                    </RouterLink>
                 </Box>
             </Box>
         </Container>
