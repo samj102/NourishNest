@@ -23,7 +23,7 @@ class UserLoginSerializer(serializers.Serializer):
     def check_user(self, data):
         user = authenticate(username=data['username'], password=data['password'])
         if not user:
-            raise Exception('User not found')
+            raise serializers.ValidationError('User not found or Password is invalid')
         return user
 
 
@@ -52,7 +52,7 @@ class UserViewSerializer(serializers.ModelSerializer):
 class SavedRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedRecipe
-        fields = ('id', 'name', 'tags', 'ingredients', 'steps', 'calories', 'image')
+        fields = ('id', 'name', 'tags', 'ingredients', 'steps', 'calories', 'preptime', 'cooktime', 'image')
         read_only_fields = ('user',)
     
 
