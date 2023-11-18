@@ -15,7 +15,9 @@ class GlobalRecipe(models.Model):
     name = models.CharField(max_length=50, null=False, editable=True)
     tags = models.JSONField(editable=True)
     ingredients = models.JSONField(null=False, editable=True)
-    calories = models.PositiveSmallIntegerField(editable=True, default=0)
+    calories = models.PositiveSmallIntegerField(editable=True, default=0, null=True)
+    preptime = models.PositiveIntegerField(editable=True, default=0, null=True)
+    cooktime = models.PositiveIntegerField(editable=True, default=0, null=True)
     steps = models.JSONField(null=False, editable=True)
     image = models.ImageField(null=True, upload_to='recipe_img/', blank=True)
 
@@ -26,7 +28,9 @@ class SavedRecipe(models.Model):
     tags = models.JSONField(editable=True)
     ingredients = models.JSONField(null=False, editable=True)
     steps = models.JSONField(null=False, editable=True)
-    calories = models.PositiveSmallIntegerField(editable=True, default=0)
+    calories = models.PositiveSmallIntegerField(editable=True, default=0, null=True)
+    preptime = models.PositiveIntegerField(editable=True, default=0, null=True)
+    cooktime = models.PositiveIntegerField(editable=True, default=0, null=True)
     user = models.ForeignKey(User, null=False, db_index=True, on_delete=models.CASCADE)
     image = models.ImageField(null=True, upload_to='recipe_img/', blank=True)
     
