@@ -22,6 +22,7 @@ const CreateRecipe = () => {
     const [ingredients, setIngredients] = useState([]);
     const [steps, setSteps] = useState([]);
     const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
     // time
     const [prepTimeHours, setPrepTimeHours] = useState(null);
@@ -98,17 +99,24 @@ const CreateRecipe = () => {
         }
     };
 
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setImage(e.target.files[0]);
+            setImagePreview(URL.createObjectURL(e.target.files[0]));
+        }
+    }
+
 
     return (
-        <Container component='main' maxWidth='md'>
+        <Container component='main' maxWidth='lg'>
 
-            <Box sx={{ marginTop: 10, display: 'flex', flexDirection: 'column'}}>
+            <Box sx={{ marginTop: 10, display: 'flex', flexDirection: 'column', marginBottom: 20}}>
                 <Typography variant={'h4'} align={'center'}>
                     New Recipe
                 </Typography>
                 <Grid container spacing={25} sx={{justifyContent: 'center', paddingTop: '3em'}}>
-                    <Grid item xs={12} lg={6}>
-                        <Stack spacing={2}>
+                    <Grid item xs={12} md={6}>
+                        <Stack spacing={3}>
                             <Typography variant={'h6'}>
                                 Name
                             </Typography>
@@ -119,10 +127,8 @@ const CreateRecipe = () => {
                                 Description
                             </Typography>
                             <TextField multiline id={'description'} name={'description'} rows={6} onChange={(e) => setDescription(e.target.value)}  fullWidth/>
-                        </Stack>
-                    </Grid>
-                    <Grid item xs={12} lg={6}>
-                        <Stack spacing={2}>
+
+                            {/* tags */}
                             <Typography variant={'h6'}>
                                 Tags
                             </Typography>
@@ -215,8 +221,24 @@ const CreateRecipe = () => {
                                     sx={{width: '100%'}}
                                 />
                             </Stack>
-
-
+                        </Stack>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Stack spacing={2}>
+                            {/* image upload */}
+                            <Typography variant={'h6'}>
+                                Upload Image
+                            </Typography>
+                            <input
+                                accept="image/*"
+                                id="image-upload"
+                                type="file"
+                                onChange={handleImageChange}
+                            />
+                            {/* image preview */}
+                            {imagePreview && (
+                                <img src={imagePreview} alt="Preview Image" style={{maxWidth: '100%'}}/>
+                            )}
                         </Stack>
                     </Grid>
                 </Grid>
