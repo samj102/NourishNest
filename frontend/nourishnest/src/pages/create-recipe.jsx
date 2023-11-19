@@ -154,7 +154,10 @@ const CreateRecipe = () => {
                                     <TextField {...params}/>
                                 )}
                             />
-
+                        </Stack>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Stack spacing={2}>
                             {/* prep time */}
                             <Typography variant={'h6'}>
                                 Prep Time
@@ -221,12 +224,10 @@ const CreateRecipe = () => {
                                     sx={{width: '100%'}}
                                 />
                             </Stack>
-                        </Stack>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Stack spacing={2}>
+
+
                             {/* image upload */}
-                            <Typography variant={'h6'}>
+                            <Typography variant={'h6'} sx={{paddingTop: '3em'}}>
                                 Upload Image
                             </Typography>
                             <input
