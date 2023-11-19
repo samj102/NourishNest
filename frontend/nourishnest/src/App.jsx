@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import Register from './pages/register';
 import CreateRecipe from './pages/create-recipe';
 import {AuthProvider} from "./components/authContext";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -23,7 +24,7 @@ function App() {
                             <Route path="/" element={<Index/>}/>
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/register" element={<Register/>}/>
-                            <Route path="/create-recipe" element={<CreateRecipe/>}/>
+                            <Route path="/create-recipe" element={<ProtectedRoute component={CreateRecipe}/>}/>
                             <Route path="*" element={<NotFound/>}/>
                         </Routes>
                     </Box>
