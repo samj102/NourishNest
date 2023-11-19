@@ -8,6 +8,10 @@ import Register from './pages/register';
 import CreateRecipe from './pages/create-recipe';
 import {AuthProvider} from "./components/authContext";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import MyRecipes from "./pages/my-recipes.jsx";
+import WeeklyPlanner from "./pages/weekly-planner.jsx";
+import BrowseRecipes from "./pages/browse-recipes.jsx";
+import Recipe from "./pages/recipe.jsx";
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -25,6 +29,10 @@ function App() {
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/register" element={<Register/>}/>
                             <Route path="/create-recipe" element={<ProtectedRoute component={CreateRecipe}/>}/>
+                            <Route path="/my-recipes" element={<ProtectedRoute component={MyRecipes}/>}/>
+                            <Route path="/planner" element={<ProtectedRoute component={WeeklyPlanner}/>}/>
+                            <Route path="/browse" element={<BrowseRecipes/>}/>
+                            <Route path="/recipe/:id" element={<Recipe/>}/>
                             <Route path="*" element={<NotFound/>}/>
                         </Routes>
                     </Box>
