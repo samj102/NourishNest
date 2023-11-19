@@ -6,6 +6,7 @@ import Login from './pages/login';
 import NotFound from './pages/NotFound';
 import Register from './pages/register';
 import CreateRecipe from './pages/create-recipe';
+import {AuthProvider} from "./components/authContext";
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -13,6 +14,7 @@ import {Box} from "@mui/material";
 
 function App() {
     return (
+        <AuthProvider>
             <Router>
                 <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <Navbar />
@@ -28,6 +30,7 @@ function App() {
                     <Footer/>
                 </Box>
             </Router>
+        </AuthProvider>
     );
 }
 

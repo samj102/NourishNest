@@ -242,6 +242,10 @@ const CreateRecipe = () => {
                         </Stack>
                     </Grid>
                 </Grid>
+
+                <Grid container spacing={10} sx={{justifyContent: 'center', paddingTop: '3em'}}>
+                </Grid>
+
             </Box>
         </Container>
     )

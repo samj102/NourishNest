@@ -1,14 +1,16 @@
 import { AppBar, Toolbar, Button } from '@mui/material';
 import { Link as Link, useNavigate } from 'react-router-dom';
 import TextLogo from './TextLogo.jsx';
+import {AuthContext} from "./authContext.jsx";
+import {useContext} from "react";
 
 const Navbar = () => {
+    const { isAuthenticated, logout } = useContext(AuthContext);
     // Check if authentication cookie exists
-   const isAuthenticated = !!localStorage.getItem('isAuthenticated');
    const navigate = useNavigate();
 
    const handleLogout = () => {
-         localStorage.removeItem('isAuthenticated');
+         logout();
          navigate('/');
    }
 

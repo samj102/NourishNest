@@ -1,9 +1,12 @@
 import {Alert, Box, Button, Checkbox, Container, FormControlLabel, Link, TextField, Typography} from "@mui/material";
 import {Link as RouterLink, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {getCookie, getCSRFToken} from "../utils";
+import { AuthContext } from "../components/authContext";
 
 const Login = () => {
+    const { isAuthenticated, login } = useContext(AuthContext);
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -43,7 +46,7 @@ const Login = () => {
                 "username": username,
                 "password": password,
             });
-            localStorage.setItem('isAuthenticated', "true");
+            login();
             navigate("/"); // Redirect to home page on successful login
         } catch (err) {
             setError(err.message || "Failed to login"); // Display error message from server
