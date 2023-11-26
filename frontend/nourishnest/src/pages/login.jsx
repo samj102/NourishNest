@@ -46,7 +46,7 @@ const Login = () => {
                 "username": username,
                 "password": password,
             });
-            login();
+            login(response.username);
             navigate("/"); // Redirect to home page on successful login
         } catch (err) {
             setError(err.message || "Failed to login"); // Display error message from server
@@ -69,7 +69,7 @@ const Login = () => {
 
                     {/* Display error message */}
                     {error && (
-                        <Alert severity="error" sx={{ width: '100%', mt: 2 }}>
+                        <Alert severity="error" sx={{ mt: 2 }}>
                             {error}
                         </Alert>
                     )}
