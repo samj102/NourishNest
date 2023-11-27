@@ -12,6 +12,7 @@ import MyRecipes from "./pages/my-recipes.jsx";
 import WeeklyPlanner from "./pages/weekly-planner.jsx";
 import BrowseRecipes from "./pages/browse-recipes.jsx";
 import Recipe from "./pages/recipe.jsx";
+import MyProfile from "./pages/my-profile.jsx";
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -33,6 +34,7 @@ function App() {
                             <Route path="/planner" element={<ProtectedRoute component={WeeklyPlanner}/>}/>
                             <Route path="/browse" element={<BrowseRecipes/>}/>
                             <Route path="/recipe/:id" element={<Recipe/>}/>
+                            <Route path="/profile" element={<ProtectedRoute component={MyProfile}/>}/>
                             <Route path="*" element={<NotFound/>}/>
                         </Routes>
                     </Box>
