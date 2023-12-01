@@ -35,6 +35,12 @@
     1. `cd backend`
     2. `pip install -r requirements.txt`
 
+It's recommended to use a virtual environment for the backend.
+- To create a virtual environment, run `python -m venv venv`
+   - This places your virtual environment in the `venv` folder
+- To activate the virtual environment, run `source venv/bin/activate`, or `venv\Scripts\activate.bat` on Windows
+- To deactivate the virtual environment, run `deactivate`
+
 <br/>
 
 # Development Server
