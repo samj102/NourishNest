@@ -18,6 +18,7 @@ import AboutUs from "./pages/about-us.jsx";
 import TOS from "./pages/TermsOfService.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import EditRecipe from "./pages/edit-recipe.jsx";
+import PublicRoute from "./components/PublicRoute.jsx";
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -32,8 +33,8 @@ function App() {
                     <Box component={'main'} sx={{ flexGrow: 1, mt: 4 }}>
                         <Routes>
                             <Route path="/" element={<Index/>}/>
-                            <Route path="/login" element={<Login/>}/>
-                            <Route path="/register" element={<Register/>}/>
+                            <Route path="/login" element={<PublicRoute component={Login}/>}/>
+                            <Route path="/register" element={<PublicRoute component={Register}/>}/>
                             <Route path="/create-recipe" element={<ProtectedRoute component={CreateRecipe}/>}/>
                             <Route path="/my-recipes" element={<ProtectedRoute component={MyRecipes}/>}/>
                             <Route path="/planner" element={<ProtectedRoute component={WeeklyPlanner}/>}/>
