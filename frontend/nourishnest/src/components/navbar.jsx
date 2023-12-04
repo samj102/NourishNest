@@ -65,7 +65,7 @@ const Navbar = () => {
                                     <ListItemText primary={"My Profile"} />
                                 </ListItem>
                             </List>
-                            <Stack direction={'horizontal'} sx={{p: 1.5, pt: 0}}>
+                            <Stack direction={'row'} sx={{p: 1.5, pt: 0}}>
                                 <AccountCircleIcon sx={{color: 'black'}}/>
                                 <Typography sx={{color: 'black', p: 0.5}}>{localStorage.getItem('username')}</Typography>
                             </Stack>
