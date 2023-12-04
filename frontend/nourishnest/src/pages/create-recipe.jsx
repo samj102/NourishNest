@@ -7,10 +7,11 @@ import {
     Typography,
     Autocomplete,
     Chip,
-    Grid
+    Grid, Button
 } from "@mui/material";;
 import {getCSRFToken, parseTimeToSeconds} from "../utils.js";
 import { useNavigate } from 'react-router-dom';
+import IngredientInput from "../components/IngredientInput.jsx";
 
 
 const CreateRecipe = () => {
@@ -19,7 +20,7 @@ const CreateRecipe = () => {
     const [description, setDescription] = useState('');
     const [calories, setCalories] = useState(null);
     const [tags, setTags] = useState(''); // Comma-separated string of tags
-    const [ingredients, setIngredients] = useState([]);
+    const [ingredients, setIngredients] = useState([{ingredient: "", quantity: ""}]);
     const [steps, setSteps] = useState([]);
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
@@ -104,6 +105,26 @@ const CreateRecipe = () => {
             setImage(e.target.files[0]);
             setImagePreview(URL.createObjectURL(e.target.files[0]));
         }
+    }
+
+    const handleIngredientChange = (index, field, value) => {
+        const updatedIngredients = ingredients.map((ingredient, i) => {
+            if (i === index) {
+                return {...ingredient, [field]: value};
+            }
+            return ingredient;
+        });
+        setIngredients(updatedIngredients);
+    }
+
+    const addIngredient = () => {
+        setIngredients([...ingredients, {ingredient: "", quantity: ""}]);
+    }
+
+    const removeIngredient = (index) => {
+        const newIngredients = [...ingredients];
+        newIngredients.splice(index, 1);
+        setIngredients(newIngredients);
     }
 
 
@@ -244,9 +265,41 @@ const CreateRecipe = () => {
                     </Grid>
                 </Grid>
 
-                <Grid container spacing={10} sx={{justifyContent: 'center', paddingTop: '3em'}}>
+                <Grid container spacing={25} sx={{justifyContent: 'center', paddingTop: '10em'}}>
+                    <Grid item xs={12} md={6}>
+                        <Stack spacing={3}>
+                            {/* ingredients */}
+                            <Typography variant={'h6'}>
+                                Ingredients
+                            </Typography>
+
+                            <Box>
+                                {ingredients.map((ingredient, index) => (
+                                    <IngredientInput
+                                        key={index}
+                                        ingredient={ingredient}
+                                        onIngredientChange={(value) => handleIngredientChange(index, 'ingredient', value)}
+                                        onQuantityChange={(value) => handleIngredientChange(index, 'quantity', value)}
+                                        onDelete={() => removeIngredient(index)}
+                                    />
+                                ))}
+                                <Button sx={{mt: 3}} variant={'contained'} onClick={addIngredient}>Add Ingredient</Button>
+                            </Box>
+
+                        </Stack>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Stack spacing={3}>
+                            {/* steps */}
+                            <Typography variant={'h6'}>
+                                Steps
+                            </Typography>
+
+                        </Stack>
+                    </Grid>
                 </Grid>
 
+                <Button variant={'contained'} sx={{mt: 10}} onClick={handleSubmit}>Save Recipe</Button>
             </Box>
         </Container>
     )
