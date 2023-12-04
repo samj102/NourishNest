@@ -7,7 +7,7 @@ const TOS = () => {
             <Box sx={{display: 'flex', flexDirection: 'column', margin: 10}}>
                 <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 10}}>
                     <Typography variant={'h3'} sx={{mt: 4, mb: 2}}>Terms of Service</Typography>
-                    <Typography variant={'p'} sx={{color: 'grey'}}>Last updated: October 15th, 2023</Typography>
+                    <Typography variant={'body1'} sx={{color: 'grey'}}>Last updated: October 15th, 2023</Typography>
                 </Box>
 
 
