@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
+import ImageIcon from "@mui/icons-material/Image";
 
 const MyRecipes = () => {
   const [recipes, setRecipes] = useState([]);
@@ -53,12 +54,18 @@ const MyRecipes = () => {
                 ) : (
                   <div
                     style={{
-                      backgroundColor: "black",
+                      backgroundColor: "white",
                       width: "100%",
                       height: "150px",
                       borderRadius: 8, // Add rounded corners
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                     }}
-                  ></div>
+
+                  >
+                      <ImageIcon fontSize={'large'}/>
+                  </div>
                 )}
                 <Button
                   component={RouterLink}
