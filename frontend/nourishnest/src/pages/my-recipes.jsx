@@ -58,13 +58,12 @@ const MyRecipes = () => {
                       width: "100%",
                       height: "150px",
                       borderRadius: 8, // Add rounded corners
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
-
                   >
-                      <ImageIcon fontSize={'large'}/>
+                    <ImageIcon fontSize={"large"} />
                   </div>
                 )}
                 <Button
