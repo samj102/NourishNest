@@ -67,7 +67,7 @@ const CreateRecipe = () => {
         }
 
         return fetch('http://localhost:8000/api/savedrecipes/create', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'X-CSRFToken': getCSRFToken(),
             },
