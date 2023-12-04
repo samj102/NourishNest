@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCSRFToken } from "../utils";
+import {convertSecondsToTime} from "../utils";
 
 const ViewRecipe = () => {
     const [recipe, setRecipe] = useState(null);
@@ -69,8 +70,8 @@ const ViewRecipe = () => {
                 <Grid container spacing={25} sx={{justifyContent: 'center', paddingTop: '3em', alignItems: 'center'}}>
                     <Grid item xs={12} md={6}>
                         <Typography variant={'body1'}>Calories: {recipe.calories || 'N/A'}</Typography>
-                        <Typography variant={'body1'}>Prep Time: {recipe.preptime || 'N/A'}</Typography>
-                        <Typography variant={'body1'}>Cook Time: {recipe.cooktime || 'N/A'}</Typography>
+                        <Typography variant={'body1'}>Prep Time: {convertSecondsToTime(recipe.preptime)|| 'N/A'}</Typography>
+                        <Typography variant={'body1'}>Cook Time: {convertSecondsToTime(recipe.cooktime) || 'N/A'}</Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         {/* Display Image if exists */}

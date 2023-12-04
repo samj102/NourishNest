@@ -155,8 +155,8 @@ const EditRecipe = () => {
                 "tags": formattedTags,
                 "ingredients": formattedIngredients,
                 "calories": calories,
-                "prep_time": prepTime,
-                "cook_time": cookTime,
+                "preptime": prepTime,
+                "cooktime": cookTime,
                 "steps": formattedSteps,
                 "image": image
             });
