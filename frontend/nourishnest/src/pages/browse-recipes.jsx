@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/system";
 import { getCookie, getCSRFToken } from "../utils";
 import axios from "axios";
+import { useEffect } from "react";
 
 const BrowseRecipesContainer = styled("div")({
   display: "flex",
@@ -19,6 +20,20 @@ const BrowseRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    // Fetch all global recipes when the component mounts
+    const fetchAllRecipes = async () => {
+      try {
+        const response = await browseRecipes(""); // Pass an empty string to get all recipes
+        setRecipes(response); // Assuming response is an array of recipes
+      } catch (err) {
+        setError(err.message || "Error fetching recipes");
+      }
+    };
+
+    fetchAllRecipes();
+  }, []); // Empty dependency array ensures the effect runs only once on mount
+
   function browseRecipes(recipe) {
     // csrf protection
 
@@ -28,7 +43,7 @@ const BrowseRecipes = () => {
         "Content-Type": "application/json",
         "X-CSRFToken": getCSRFToken(),
       },
-      credentials: 'include',
+      credentials: "include",
     })
       .then((response) => {
         if (!response.ok) {
@@ -55,7 +70,7 @@ const BrowseRecipes = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await browseRecipes({recipeName});
+      const response = await browseRecipes({ recipeName });
     } catch (err) {
       setError(err.message || "Incorrect Credentials"); // Display error message from server
     }
