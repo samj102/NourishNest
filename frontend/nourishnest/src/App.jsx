@@ -24,6 +24,7 @@ import CreateGlobalRecipe from "./pages/admin/create-global-recipe.jsx";
 import EditGlobalRecipe from "./pages/admin/edit-global-recipe.jsx";
 import StaffProtectedRoute from "./components/routes/StaffProtectedRoute.jsx";
 import GlobalViewRecipe from "./pages/globalRecipe.jsx";
+import SaveRecipe from "./pages/save-recipe.jsx";
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -55,6 +56,7 @@ function App() {
                             <Route path="/admin-create" element={<StaffProtectedRoute component={CreateGlobalRecipe}/>}/>
                             <Route path="/admin-edit/:id" element={<StaffProtectedRoute component={EditGlobalRecipe}/>}/>
                             <Route path="/view-recipe-global/:id" element={<GlobalViewRecipe/>}/>
+                            <Route path="/save-recipe/:id" element={<ProtectedRoute component={SaveRecipe}/>}/>
                             <Route path="*" element={<NotFound/>}/>
                         </Routes>
                     </Box>

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
 import ImageIcon from "@mui/icons-material/Image";
 import { getCSRFToken } from "../utils";
 
 const BrowseRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [filterName, setFilterName] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     const csrfToken = getCSRFToken();
@@ -30,28 +32,7 @@ const BrowseRecipes = () => {
   }, [filterName]); // Trigger search when filterName changes
 
   const handleSaveRecipe = (recipeId) => {
-    const csrfToken = getCSRFToken();
-
-    fetch(`http://localhost:8000/api/savedrecipes/create`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken,
-      },
-      credentials: "include",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to save recipe (HTTP ${response.status})`);
-        }
-        console.log("Recipe saved successfully");
-        // Optionally show an alert or update state to reflect the saved recipe
-        // For example, you can set a flag in the state and show a success message.
-      })
-      .catch((error) => {
-        console.error("Error saving recipe:", error);
-        // Optionally show an alert or update state to reflect the error
-      });
+        navigate(`/save-recipe/${recipeId}`)
   };
 
   return (
