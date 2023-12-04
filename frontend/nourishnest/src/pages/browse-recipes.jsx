@@ -2,17 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import ImageIcon from "@mui/icons-material/Image";
-import EditIcon from "@mui/icons-material/Edit"; // Import the EditIcon
 import { getCSRFToken } from "../utils";
-
 const BrowseRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [filterCuisine, setFilterCuisine] = useState("");
-
   const handleSearch = () => {
     const csrfToken = getCSRFToken();
-
-    // Modify the URL to include the filterCuisine parameter
+    // You can modify the URL to include the filterCuisine parameter
     fetch(`http://localhost:8000/api/globalrecipes?cuisine=${filterCuisine}`, {
       method: "GET",
       headers: {
@@ -25,12 +21,10 @@ const BrowseRecipes = () => {
       .then((data) => setRecipes(data))
       .catch((error) => console.error("Error fetching recipes", error));
   };
-
   useEffect(() => {
     // Fetch initial recipes when the component mounts
     handleSearch();
-  }, [filterCuisine]); // Include filterCuisine in the dependency array
-
+  }, []); // Empty dependency array means this effect runs once after the initial render
   return (
     <Container component={"main"} maxWidth={"lg"}>
       <Box
@@ -44,7 +38,6 @@ const BrowseRecipes = () => {
         <Typography variant={"h3"} sx={{ mt: 4, mb: 3 }}>
           Browse Recipes
         </Typography>
-
         {/* Add a search input and button */}
         <Box sx={{ mb: 3 }}>
           <input
@@ -62,7 +55,6 @@ const BrowseRecipes = () => {
             Search
           </Button>
         </Box>
-
         <Grid container spacing={3} justifyContent="center">
           {recipes.map((recipe) => (
             <Grid item key={recipe.id} xs={12} md={4}>
@@ -99,19 +91,9 @@ const BrowseRecipes = () => {
                   component={RouterLink}
                   to={`/view-recipe-global/${recipe.id}`}
                   variant="outlined"
-                  sx={{ mt: 2, mr: 1 }}
-                >
-                  View Recipe
-                </Button>
-                <Button
-                  component={RouterLink}
-                  to={`/admin-edit/${recipe.id}`}
-                  variant="outlined"
-                  color="primary"
-                  startIcon={<EditIcon />} // Add the EditIcon as the startIcon
                   sx={{ mt: 2 }}
                 >
-                  Edit Recipe
+                  View Recipe
                 </Button>
               </Box>
             </Grid>
@@ -121,5 +103,4 @@ const BrowseRecipes = () => {
     </Container>
   );
 };
-
 export default BrowseRecipes;
