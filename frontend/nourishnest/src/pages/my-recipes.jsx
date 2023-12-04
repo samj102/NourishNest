@@ -42,7 +42,7 @@ const MyRecipes = () => {
                 </Typography>
                 {recipe.image ? (
                   <img
-                    src={`http://localhost:8000${recipe.image}`}
+                    src={recipe.image}
                     alt={recipe.name}
                     style={{
                       maxWidth: "100%",
