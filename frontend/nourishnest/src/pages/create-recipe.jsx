@@ -17,7 +17,6 @@ import IngredientInput from "../components/IngredientInput.jsx";
 const CreateRecipe = () => {
     // vars
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
     const [calories, setCalories] = useState(null);
     const [tags, setTags] = useState(''); // Comma-separated string of tags
     const [ingredients, setIngredients] = useState([{ingredient: "", quantity: ""}]);
@@ -85,7 +84,6 @@ const CreateRecipe = () => {
         try {
             const response = await createRecipe({
                 "name": name,
-                "description": description,
                 "tags": formattedTags,
                 "ingredients": ingredients,
                 "calories": calories,
@@ -94,9 +92,9 @@ const CreateRecipe = () => {
                 "steps": steps,
                 "image": image
             });
-            navigate("/"); // Redirect to home page on successful creation
+            navigate("/my-recipes"); // Redirect to home page on successful creation
         } catch (err) {
-            setError(err.message || "Failed to login"); // Display error message from server
+            setError(err.message || "Name may not be blank"); // Display error message from server
         }
     };
 
@@ -142,12 +140,6 @@ const CreateRecipe = () => {
                                 Name
                             </Typography>
                             <TextField required id={'name'} name={'name'} onChange={(e) => setName(e.target.value)} />
-
-
-                            <Typography variant={'h6'}>
-                                Description
-                            </Typography>
-                            <TextField multiline id={'description'} name={'description'} rows={6} onChange={(e) => setDescription(e.target.value)}  fullWidth/>
 
                             {/* tags */}
                             <Typography variant={'h6'}>
@@ -299,7 +291,9 @@ const CreateRecipe = () => {
                     </Grid>
                 </Grid>
 
-                <Button variant={'contained'} sx={{mt: 10}} onClick={handleSubmit}>Save Recipe</Button>
+                {/* submit button */}
+                <Typography variant={'body1'} sx={{color: 'red', textAlign: 'center', marginTop: 15}}>{error}</Typography>
+                <Button variant={'contained'} sx={{mt: 3}} onClick={handleSubmit}>Save Recipe</Button>
             </Box>
         </Container>
     )
