@@ -3,9 +3,38 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import ImageIcon from "@mui/icons-material/Image";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { getCSRFToken } from "../utils";
 
 const MyRecipes = () => {
   const [recipes, setRecipes] = useState([]);
+
+  const handleDeleteRecipe = (recipeId) => {
+    const csrfToken = getCSRFToken();
+
+    fetch(`http://localhost:8000/api/savedrecipes/${recipeId}/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to delete recipe (HTTP ${response.status})`);
+        }
+        // Handle success (e.g., update state to remove the deleted recipe)
+        console.log("Recipe deleted successfully");
+        // Update state to remove the deleted recipe
+        setRecipes((prevRecipes) =>
+          prevRecipes.filter((recipe) => recipe.id !== recipeId)
+        );
+      })
+      .catch((error) => {
+        console.error("Error deleting recipe:", error);
+      });
+  };
 
   useEffect(() => {
     fetch(`http://localhost:8000/api/savedrecipes`, {
@@ -48,7 +77,7 @@ const MyRecipes = () => {
                     style={{
                       maxWidth: "100%",
                       height: "auto",
-                      borderRadius: 8, // Add rounded corners
+                      borderRadius: 8,
                     }}
                   />
                 ) : (
@@ -57,7 +86,7 @@ const MyRecipes = () => {
                       backgroundColor: "white",
                       width: "100%",
                       height: "150px",
-                      borderRadius: 8, // Add rounded corners
+                      borderRadius: 8,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -70,9 +99,18 @@ const MyRecipes = () => {
                   component={RouterLink}
                   to={`/view-recipe/${recipe.id}`}
                   variant="outlined"
-                  sx={{ mt: 2 }}
+                  sx={{ mt: 2, mr: 1 }}
                 >
                   View Recipe
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => handleDeleteRecipe(recipe.id)}
+                  sx={{ mt: 2 }}
+                >
+                  Delete Recipe
                 </Button>
               </Box>
             </Grid>
