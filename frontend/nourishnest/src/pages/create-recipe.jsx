@@ -51,13 +51,16 @@ const CreateRecipe = () => {
         const formData = new FormData();
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
-                if (key === 'image' && data[key]) {
-                    formData.append(key, data[key], data[key].name);
+                if (key === 'image') {
+                    // Append the image only if it exists
+                    if (data[key]) {
+                        formData.append(key, data[key], data[key].name);
+                    }
                 } else if (key === 'tags' || key === 'ingredients' || key === 'steps') {
-                    // For arrays or complex objects, convert them to JSON strings
+                    // Convert arrays or complex objects to JSON strings
                     formData.append(key, JSON.stringify(data[key]));
                 } else {
-                    // For regular fields, append them as is
+                    // Append other fields as is
                     formData.append(key, data[key]);
                 }
             }
