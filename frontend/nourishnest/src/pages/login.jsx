@@ -56,9 +56,9 @@ const Login = () => {
         password: password,
       });
       login(response.username);
-      navigate("/"); // Redirect to home page on successful login
+      navigate("/my-recipes"); // Redirect to home page on successful login
     } catch (err) {
-      setError(err.message || "Failed to login"); // Display error message from server
+      setError(err.message || "Incorrect Credentials"); // Display error message from server
     }
   };
 
