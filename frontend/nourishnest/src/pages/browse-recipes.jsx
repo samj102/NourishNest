@@ -3,13 +3,15 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import ImageIcon from "@mui/icons-material/Image";
 import { getCSRFToken } from "../utils";
+
 const BrowseRecipes = () => {
   const [recipes, setRecipes] = useState([]);
-  const [filterCuisine, setFilterCuisine] = useState("");
+  const [filterName, setFilterName] = useState("");
+
   const handleSearch = () => {
     const csrfToken = getCSRFToken();
-    // You can modify the URL to include the filterCuisine parameter
-    fetch(`http://localhost:8000/api/globalrecipes?cuisine=${filterCuisine}`, {
+
+    fetch(`http://localhost:8000/api/globalrecipes?name=${filterName}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -21,10 +23,37 @@ const BrowseRecipes = () => {
       .then((data) => setRecipes(data))
       .catch((error) => console.error("Error fetching recipes", error));
   };
+
   useEffect(() => {
     // Fetch initial recipes when the component mounts
     handleSearch();
-  }, []); // Empty dependency array means this effect runs once after the initial render
+  }, [filterName]); // Trigger search when filterName changes
+
+  const handleSaveRecipe = (recipeId) => {
+    const csrfToken = getCSRFToken();
+
+    fetch(`http://localhost:8000/api/savedrecipes/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to save recipe (HTTP ${response.status})`);
+        }
+        console.log("Recipe saved successfully");
+        // Optionally show an alert or update state to reflect the saved recipe
+        // For example, you can set a flag in the state and show a success message.
+      })
+      .catch((error) => {
+        console.error("Error saving recipe:", error);
+        // Optionally show an alert or update state to reflect the error
+      });
+  };
+
   return (
     <Container component={"main"} maxWidth={"lg"}>
       <Box
@@ -38,13 +67,14 @@ const BrowseRecipes = () => {
         <Typography variant={"h3"} sx={{ mt: 4, mb: 3 }}>
           Browse Recipes
         </Typography>
+
         {/* Add a search input and button */}
         <Box sx={{ mb: 3 }}>
           <input
             type="text"
-            placeholder="Filter cuisine"
-            value={filterCuisine}
-            onChange={(e) => setFilterCuisine(e.target.value)}
+            placeholder="Filter recipe name"
+            value={filterName}
+            onChange={(e) => setFilterName(e.target.value)}
           />
           <Button
             onClick={handleSearch}
@@ -55,6 +85,7 @@ const BrowseRecipes = () => {
             Search
           </Button>
         </Box>
+
         <Grid container spacing={3} justifyContent="center">
           {recipes.map((recipe) => (
             <Grid item key={recipe.id} xs={12} md={4}>
@@ -91,9 +122,17 @@ const BrowseRecipes = () => {
                   component={RouterLink}
                   to={`/view-recipe-global/${recipe.id}`}
                   variant="outlined"
-                  sx={{ mt: 2 }}
+                  sx={{ mt: 2, mr: 1 }}
                 >
                   View Recipe
+                </Button>
+                <Button
+                  onClick={() => handleSaveRecipe(recipe.id)}
+                  variant="outlined"
+                  color="primary"
+                  sx={{ mt: 2 }}
+                >
+                  Save Recipe
                 </Button>
               </Box>
             </Grid>
@@ -103,4 +142,5 @@ const BrowseRecipes = () => {
     </Container>
   );
 };
+
 export default BrowseRecipes;
