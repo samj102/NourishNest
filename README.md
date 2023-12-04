@@ -55,6 +55,7 @@ It's recommended to use a virtual environment for the backend.
 ## Backend
 1. `cd backend/nourishnest`
 2. `python manage.py runserver`
+3. To create a new admin user run: `python manage.py createsuperuser`
 
 <br/>
 
