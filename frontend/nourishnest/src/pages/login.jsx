@@ -55,6 +55,7 @@ const Login = () => {
         username: username,
         password: password,
       });
+      console.log(response);
       login(response.username);
       navigate("/my-recipes"); // Redirect to home page on successful login
     } catch (err) {

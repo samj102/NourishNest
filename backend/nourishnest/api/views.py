@@ -31,13 +31,13 @@ class GlobalRecipeView(generics.ListAPIView):
 
         return queryset
 
-class GlobalRecipeCreateView(generics.CreateAPIView): 
+class GlobalRecipeCreateView(generics.CreateAPIView):
     serializer_class = GlobalRecipeSerializer
     permission_class = (permissions.IsAdminUser,)
-    authentication_classes = (SessionAuthentication,)  
-    
+    authentication_classes = (SessionAuthentication,)
+
     def perform_create(self, serializer):
-        serializer.save()        
+        serializer.save()
 
 class GlobalRecipeDeleteView(generics.DestroyAPIView):
     serializer_class = GlobalRecipeSerializer
@@ -54,7 +54,7 @@ class GlobalRecipeUpdateView(generics.UpdateAPIView):
 
     def get_queryset(self):
         return GlobalRecipe.objects.all()
-              
+
 class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request):
@@ -77,7 +77,7 @@ class UserLogin(APIView):
             serializer.is_valid(raise_exception=True)
             user = serializer.check_user(request.data)
             login(request, user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.to_representation(user), status=status.HTTP_200_OK)
         except serializers.ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -93,7 +93,7 @@ class UserView(APIView):
     def get(self, request):
         userializer = UserViewSerializer(request.user)
         return Response({'user': userializer.data}, status=status.HTTP_200_OK)
-    
+
 class UserPersonalInfoCreate(APIView):
     authentication_classes = (SessionAuthentication,)
 
@@ -101,7 +101,7 @@ class UserPersonalInfoCreate(APIView):
         personal_info = UserPersonalInfo.objects.get(user=request.user)
         piserializer = UserPersonalInfoSerializer(personal_info)
         return Response({'info': piserializer.data}, status=status.HTTP_200_OK)
-    
+
     def post(self, request):
         serializer = UserPersonalInfoSerializer(data=request.data, context={'request': request})
         try:
@@ -113,7 +113,7 @@ class UserPersonalInfoCreate(APIView):
                 Response(status=status.HTTP_400_BAD_REQUEST)
         except serializers.ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
+
 class UserPersonalInfoUpdate(generics.UpdateAPIView):
     serializer_class = UserPersonalInfoUpdateSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -122,7 +122,7 @@ class UserPersonalInfoUpdate(generics.UpdateAPIView):
     def get_queryset(self):
         user = self.request.user
         return UserPersonalInfo.objects.filter(user=user)
-    
+
     def get_object(self):
         queryset = self.get_queryset()
         p_info = queryset.first()
@@ -155,8 +155,8 @@ class SavedRecipeView(generics.ListAPIView):
             queryset = queryset.filter(tags__icontains=tags)
 
         return queryset
-    
-    
+
+
 class SavedRecipeCreateView(generics.CreateAPIView):
     serializer_class = SavedRecipeSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -178,7 +178,7 @@ class SavedRecipeDeleteView(generics.DestroyAPIView):
         if instance.image:
             instance.image.delete()
         super().perform_destroy(instance)
-    
+
 class SavedRecipeUpdateView(generics.UpdateAPIView):
     serializer_class = SavedRecipeSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -187,7 +187,7 @@ class SavedRecipeUpdateView(generics.UpdateAPIView):
     def get_queryset(self):
         user = self.request.user
         return SavedRecipe.objects.filter(user=user)
-            
+
 class ScheduledCreateView(generics.CreateAPIView):
     serializer_class = ScheduledSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -196,7 +196,7 @@ class ScheduledCreateView(generics.CreateAPIView):
     def get_queryset(self):
         user = self.request.user
         return Scheduled.objects.filter(user=user)
-    
+
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         try:
@@ -217,7 +217,7 @@ class ScheduledView(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return Scheduled.objects.filter(user=user)
-    
+
 class ScheduledDeleteView(generics.DestroyAPIView):
     serializer_class = ScheduledSerializer
     permission_classes = (permissions.IsAuthenticated,)
