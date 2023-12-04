@@ -5,6 +5,7 @@ export const AuthContext = createContext(null);
 export const AuthProvider = ({children}) => {
     const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('isAuthenticated'));
     const [username, setUsername] = useState(null);
+    const [is_staff, setIsStaff] = useState(null);
 
     useEffect(() => {
         setIsAuthenticated(!!localStorage.getItem('isAuthenticated'));

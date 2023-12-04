@@ -7,7 +7,7 @@ import NotFound from './pages/NotFound';
 import Register from './pages/register';
 import CreateRecipe from './pages/create-recipe';
 import {AuthProvider} from "./components/authContext";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import ProtectedRoute from "./components/routes/ProtectedRoute.jsx";
 import MyRecipes from "./pages/my-recipes.jsx";
 import WeeklyPlanner from "./pages/weekly-planner.jsx";
 import BrowseRecipes from "./pages/browse-recipes.jsx";
@@ -18,7 +18,11 @@ import AboutUs from "./pages/about-us.jsx";
 import TOS from "./pages/TermsOfService.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import EditRecipe from "./pages/edit-recipe.jsx";
-import PublicRoute from "./components/PublicRoute.jsx";
+import PublicRoute from "./components/routes/PublicRoute.jsx";
+import GlobalRecipes from "./components/admin/global-recipes.jsx";
+import CreateGlobalRecipe from "./components/admin/create-global-recipe.jsx";
+import EditGlobalRecipe from "./components/admin/edit-global-recipe.jsx";
+import StaffProtectedRoute from "./components/routes/StaffProtectedRoute.jsx";
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -46,6 +50,9 @@ function App() {
                             <Route path="/terms" element={<TOS/>}/>
                             <Route path="/privacy" element={<PrivacyPolicy/>}/>
                             <Route path="/edit-recipe/:id" element={<ProtectedRoute component={EditRecipe}/>}/>
+                            <Route path="/admin" element={<StaffProtectedRoute component={GlobalRecipes}/>}/>
+                            <Route path="/admin-create" element={<StaffProtectedRoute component={CreateGlobalRecipe}/>}/>
+                            <Route path="/admin-edit/:id" element={<StaffProtectedRoute component={EditGlobalRecipe}/>}/>
                             <Route path="*" element={<NotFound/>}/>
                         </Routes>
                     </Box>

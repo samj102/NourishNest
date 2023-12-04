@@ -27,6 +27,7 @@ const Navbar = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const is_staff = localStorage.getItem('is_staff') === 'true';
 
     const handleLogout = () => {
         logout();
@@ -75,6 +76,9 @@ const Navbar = () => {
                     </>
                 ) : (
                     <>
+                        {is_staff ? (
+                            <Button style={{ color: "black", marginRight: '0.4em'}} variant={"text"} component={RouterLink} to="/admin">Admin</Button>
+                        ) : null}
                         <Button style={{ color: "black", marginRight: '0.4em'}} variant={"text"} component={RouterLink} to="/my-recipes">My Recipes</Button>
                         <Button style={{ color: "black", marginRight: '0.4em'}} variant={"text"} component={RouterLink} to="/planner">Planner</Button>
                         <Button style={{ color: "black", marginRight: '0.4em'}} variant={"text"} component={RouterLink} to="/browse">Browse</Button>
