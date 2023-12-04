@@ -1,10 +1,7 @@
-import { useState, useEffect, useContext } from "react";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import { Link as MuiLink } from "@mui/material";
-import { AuthContext } from "../components/authContext";
 import AddIcon from "@mui/icons-material/Add";
-import { getCookie, getCSRFToken } from "../utils";
 
 const MyRecipes = () => {
   const [recipes, setRecipes] = useState([]);
@@ -14,14 +11,13 @@ const MyRecipes = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRFToken": getCSRFToken(),
       },
       credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => setRecipes(data))
       .catch((error) => console.error("Error fetching recipes", error));
-  });
+  }, []);
 
   return (
     <Container component={"main"} maxWidth={"lg"}>
@@ -33,57 +29,65 @@ const MyRecipes = () => {
           marginTop: 10,
         }}
       >
-        <Typography variant={"h3"} sx={{ mt: 4, mb: 2 }}>
+        <Typography variant={"h3"} sx={{ mt: 4, mb: 3 }}>
           My Recipes
         </Typography>
 
-        {recipes.map((recipe) => (
-          <Box key={recipe.id} sx={{ mt: 2 }}>
-            <Typography variant="h5">{recipe.name}</Typography>
-            {recipe.image ? (
-              <img
-                src={`http://localhost:8000${recipe.image}`}
-                alt={recipe.name}
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
-            ) : (
-              <div
-                style={{
-                  backgroundColor: "black",
-                  width: "100%",
-                  height: "150px",
-                }}
-              ></div>
-            )}
-            <Button
-              component={RouterLink}
-              to={`/view-recipe/${recipe.id}`}
-              variant="outlined"
-            >
-              View Recipe
-            </Button>
-          </Box>
-        ))}
+        <Grid container spacing={3} justifyContent="center">
+          {recipes.map((recipe) => (
+            <Grid item key={recipe.id} xs={12} md={4}>
+              <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: 8 }}>
+                <Typography variant="h5" sx={{ mb: 1 }}>
+                  {recipe.name}
+                </Typography>
+                {recipe.image ? (
+                  <img
+                    src={`http://localhost:8000${recipe.image}`}
+                    alt={recipe.name}
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                      borderRadius: 8, // Add rounded corners
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      backgroundColor: "black",
+                      width: "100%",
+                      height: "150px",
+                      borderRadius: 8, // Add rounded corners
+                    }}
+                  ></div>
+                )}
+                <Button
+                  component={RouterLink}
+                  to={`/view-recipe/${recipe.id}`}
+                  variant="outlined"
+                  sx={{ mt: 2 }}
+                >
+                  View Recipe
+                </Button>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
 
-        <MuiLink
+        <Button
           component={RouterLink}
           to={"/create-recipe"}
-          variant={"body1"}
-          sx={{ m: 4 }}
+          color="primary"
+          variant="contained"
+          sx={{
+            position: "fixed",
+            bottom: "15rem",
+            right: 16,
+            animation: "pulse 2s infinite",
+            mt: 4,
+          }}
         >
-          <Button
-            color="primary"
-            variant="contained"
-            sx={{
-              position: "fixed",
-              bottom: "15rem",
-              right: 16,
-              animation: "pulse 2s infinite",
-            }}
-          >
-            <AddIcon />
-          </Button>
-        </MuiLink>
+          <AddIcon />
+        </Button>
       </Box>
     </Container>
   );
