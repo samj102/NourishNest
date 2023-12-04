@@ -37,7 +37,7 @@ function App() {
                             <Route path="/my-recipes" element={<ProtectedRoute component={MyRecipes}/>}/>
                             <Route path="/planner" element={<ProtectedRoute component={WeeklyPlanner}/>}/>
                             <Route path="/browse" element={<BrowseRecipes/>}/>
-                            <Route path="/recipe/:id" element={<Recipe/>}/>
+                            <Route path="/view-recipe/:id" element={<Recipe/>}/>
                             <Route path="/profile" element={<ProtectedRoute component={MyProfile}/>}/>
                             <Route path="/contact" element={<Contact/>}/>
                             <Route path="/about" element={<AboutUs/>}/>
