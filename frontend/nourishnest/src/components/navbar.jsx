@@ -11,7 +11,7 @@ import {
     Menu,
     MenuItem,
     Avatar,
-    Typography
+    Typography, Box, Stack
 } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import TextLogo from './TextLogo.jsx';
@@ -52,23 +52,30 @@ const Navbar = () => {
                         </IconButton>
                         <Drawer anchor={"right"} open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)}>
                             <List>
-                                <ListItem component={Link} to="/my-recipes" sx={{color: 'black'}}>
+                                <ListItem component={RouterLink} to="/my-recipes" sx={{color: 'black'}}>
                                     <ListItemText primary={"My Recipes"} sx={{color: 'black'}}/>
                                 </ListItem>
-                                <ListItem component={Link} to="/planner" sx={{color:'black'}}>
+                                <ListItem component={RouterLink} to="/planner" sx={{color:'black'}}>
                                     <ListItemText primary={"Planner"} />
                                 </ListItem>
-                                <ListItem component={Link} to="/browse" sx={{color:'black'}}>
+                                <ListItem component={RouterLink} to="/browse" sx={{color:'black'}}>
                                     <ListItemText primary={"Browse"} />
                                 </ListItem>
+                                <ListItem component={RouterLink} to="/profile" sx={{color:'black', pt: 10}}>
+                                    <ListItemText primary={"My Profile"} />
+                                </ListItem>
                             </List>
+                            <Stack direction={'row'} sx={{p: 1.5, pt: 0}}>
+                                <AccountCircleIcon sx={{color: 'black'}}/>
+                                <Typography sx={{color: 'black', p: 0.5}}>{localStorage.getItem('username')}</Typography>
+                            </Stack>
                             <Button variant={"contained"} onClick={handleLogout} sx={{margin: 1}}>Logout</Button>
                         </Drawer>
 
                     </>
                 ) : (
                     <>
-                        <Button style={{ color: "black", marginRight: '0.4em'}} no wrap variant={"text"} component={RouterLink} to="/my-recipes">My Recipes</Button>
+                        <Button style={{ color: "black", marginRight: '0.4em'}} variant={"text"} component={RouterLink} to="/my-recipes">My Recipes</Button>
                         <Button style={{ color: "black", marginRight: '0.4em'}} variant={"text"} component={RouterLink} to="/planner">Planner</Button>
                         <Button style={{ color: "black", marginRight: '0.4em'}} variant={"text"} component={RouterLink} to="/browse">Browse</Button>
                         <IconButton
