@@ -7,7 +7,7 @@ import {
     Typography,
     Autocomplete,
     Chip,
-    Grid, Button
+    Grid, Button, Input
 } from "@mui/material";;
 import {getCSRFToken, parseTimeToSeconds} from "../utils.js";
 import { useNavigate } from 'react-router-dom';
@@ -18,12 +18,13 @@ import StepInput from "../components/StepInput.jsx";
 const CreateRecipe = () => {
     // vars
     const [name, setName] = useState('');
-    const [calories, setCalories] = useState(null);
+    const [calories, setCalories] = useState(0);
     const [tags, setTags] = useState(''); // Comma-separated string of tags
     const [ingredients, setIngredients] = useState([{ingredient: "", quantity: ""}]);
     const [steps, setSteps] = useState([{name: "", step: ""}]);
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    const [imageError, setImageError] = useState(null);
 
     // time
     const [prepTimeHours, setPrepTimeHours] = useState(null);
@@ -46,16 +47,28 @@ const CreateRecipe = () => {
 
 
     // API call
-    function createRecipe(recipe) {
-        // csrf protection
+    function createRecipe(data) {
+        const formData = new FormData();
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                if (key === 'image' && data[key]) {
+                    formData.append(key, data[key], data[key].name);
+                } else if (key === 'tags' || key === 'ingredients' || key === 'steps') {
+                    // For arrays or complex objects, convert them to JSON strings
+                    formData.append(key, JSON.stringify(data[key]));
+                } else {
+                    // For regular fields, append them as is
+                    formData.append(key, data[key]);
+                }
+            }
+        }
 
         return fetch('http://localhost:8000/api/savedrecipes/create', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken(),
             },
-            body: JSON.stringify(recipe),
+            body: formData,
             credentials: 'include'
         })
             .then(response => {
@@ -74,7 +87,7 @@ const CreateRecipe = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();a
+        e.preventDefault();
         setError(""); // Clear previous errors
 
         // trim and filter steps and ingredients
@@ -104,11 +117,19 @@ const CreateRecipe = () => {
     };
 
     const handleImageChange = (e) => {
-        if (e.target.files && e.target.files[0]) {
-            setImage(e.target.files[0]);
-            setImagePreview(URL.createObjectURL(e.target.files[0]));
+        const file = e.target.files[0];
+        if (file) {
+            if (file.type.startsWith('image/')) {
+                setImage(file);
+                setImagePreview(URL.createObjectURL(file));
+                setImageError(''); // Clear any previous error message
+            } else {
+                setImageError('Please upload an image file.');
+                setImage(null); // Clear the previously selected image
+                setImagePreview(null); // Clear the image preview
+            }
         }
-    }
+    };
 
     const handleIngredientChange = (index, field, value) => {
         const updatedIngredients = ingredients.map((ingredient, i) => {
@@ -274,7 +295,7 @@ const CreateRecipe = () => {
                             <Typography variant={'h6'} sx={{paddingTop: '3em'}}>
                                 Upload Image
                             </Typography>
-                            <input
+                            <Input
                                 accept="image/*"
                                 id="image-upload"
                                 type="file"
