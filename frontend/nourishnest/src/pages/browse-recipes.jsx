@@ -12,7 +12,7 @@ const BrowseRecipesContainer = styled("div")({
   flexDirection: "column",
   maxWidth: "400px",
   margin: "auto",
-  marginTop: 4, // Use a number directly for margin
+  marginTop: 20, // Use a number directly for margin
 });
 
 const BrowseRecipes = () => {
