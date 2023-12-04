@@ -373,3 +373,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+/.idea/.gitignore
+/.idea/discord.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/NourishNest.iml
+/.idea/vcs.xml
