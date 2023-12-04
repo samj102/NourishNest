@@ -43,7 +43,7 @@ const ViewRecipe = () => {
                 if (recipe) {
                     setRecipe(recipe);
                 } else {
-                    setError('Recipe not found');
+                    navigate("/not-found");
                 }
             })
             .catch(err => {

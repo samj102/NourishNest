@@ -17,6 +17,7 @@ import Contact from "./pages/contact.jsx";
 import AboutUs from "./pages/about-us.jsx";
 import TOS from "./pages/TermsOfService.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+import EditRecipe from "./pages/edit-recipe.jsx";
 import './App.css';
 import {Box} from "@mui/material";
 
@@ -43,6 +44,7 @@ function App() {
                             <Route path="/about" element={<AboutUs/>}/>
                             <Route path="/terms" element={<TOS/>}/>
                             <Route path="/privacy" element={<PrivacyPolicy/>}/>
+                            <Route path="/edit-recipe/:id" element={<ProtectedRoute component={EditRecipe}/>}/>
                             <Route path="*" element={<NotFound/>}/>
                         </Routes>
                     </Box>
