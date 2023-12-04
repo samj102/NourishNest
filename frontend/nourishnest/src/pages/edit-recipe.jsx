@@ -77,12 +77,12 @@ const EditRecipe = () => {
                     setIngredients(recipe.ingredients);
                     setSteps(recipe.steps);
                     setImagePreview(recipe.image);
-                    setPrepTimeHours(Math.floor(recipe.prep_time / 3600));
-                    setPrepTimeMinutes(Math.floor((recipe.prep_time % 3600) / 60));
-                    setPrepTimeSeconds(recipe.prep_time % 60);
-                    setCookTimeHours(Math.floor(recipe.cook_time / 3600));
-                    setCookTimeMinutes(Math.floor((recipe.cook_time % 3600) / 60));
-                    setCookTimeSeconds(recipe.cook_time % 60);
+                    setPrepTimeHours(Math.floor(recipe.preptime / 3600));
+                    setPrepTimeMinutes(Math.floor((recipe.preptime % 3600) / 60));
+                    setPrepTimeSeconds(recipe.preptime % 60);
+                    setCookTimeHours(Math.floor(recipe.cooktime / 3600));
+                    setCookTimeMinutes(Math.floor((recipe.cooktime % 3600) / 60));
+                    setCookTimeSeconds(recipe.cooktime % 60);
                 } else {
                     navigate("/not-found");
                 }

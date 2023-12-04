@@ -215,7 +215,7 @@ const Index = () => {
             variant="contained"
             color="primary"
             component={RouterLink}
-            to="/signup"
+            to="/register"
           >
             Get Started
           </Button>
