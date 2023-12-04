@@ -12,6 +12,7 @@ import {
   TableRow,
   Paper,
   TextField,
+  Checkbox,
 } from "@mui/material";
 
 const WeeklyPlanner = () => {
@@ -28,13 +29,19 @@ const WeeklyPlanner = () => {
   };
 
   const initialPlannerData = [
-    { day: "Monday", breakfast: "", lunch: "", dinner: "" },
-    { day: "Tuesday", breakfast: "", lunch: "", dinner: "" },
-    { day: "Wednesday", breakfast: "", lunch: "", dinner: "" },
-    { day: "Thursday", breakfast: "", lunch: "", dinner: "" },
-    { day: "Friday", breakfast: "", lunch: "", dinner: "" },
-    { day: "Saturday", breakfast: "", lunch: "", dinner: "" },
-    { day: "Sunday", breakfast: "", lunch: "", dinner: "" },
+    { day: "Monday", breakfast: "", lunch: "", dinner: "", completed: false },
+    { day: "Tuesday", breakfast: "", lunch: "", dinner: "", completed: false },
+    {
+      day: "Wednesday",
+      breakfast: "",
+      lunch: "",
+      dinner: "",
+      completed: false,
+    },
+    { day: "Thursday", breakfast: "", lunch: "", dinner: "", completed: false },
+    { day: "Friday", breakfast: "", lunch: "", dinner: "", completed: false },
+    { day: "Saturday", breakfast: "", lunch: "", dinner: "", completed: false },
+    { day: "Sunday", breakfast: "", lunch: "", dinner: "", completed: false },
   ];
 
   const [plannerData, setPlannerData] = useState(() => {
@@ -59,6 +66,14 @@ const WeeklyPlanner = () => {
     });
   };
 
+  const handleCheckboxChange = (dayIndex) => {
+    setPlannerData((prevPlanner) => {
+      const updatedPlanner = [...prevPlanner];
+      updatedPlanner[dayIndex].completed = !updatedPlanner[dayIndex].completed;
+      return updatedPlanner;
+    });
+  };
+
   return (
     <Container component="main" maxWidth="lg">
       <Box sx={{ mt: "8%", textAlign: "center", mb: "4%" }}>
@@ -76,6 +91,7 @@ const WeeklyPlanner = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Day</TableCell>
+                <TableCell>Completed</TableCell>
                 <TableCell>Breakfast</TableCell>
                 <TableCell>Lunch</TableCell>
                 <TableCell>Dinner</TableCell>
@@ -85,6 +101,12 @@ const WeeklyPlanner = () => {
               {plannerData.map((item, dayIndex) => (
                 <TableRow key={dayIndex}>
                   <TableCell>{item.day}</TableCell>
+                  <TableCell>
+                    <Checkbox
+                      checked={item.completed}
+                      onChange={() => handleCheckboxChange(dayIndex)}
+                    />
+                  </TableCell>
                   <TableCell>
                     <TextField
                       fullWidth
