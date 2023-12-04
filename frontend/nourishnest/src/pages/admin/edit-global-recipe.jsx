@@ -150,7 +150,7 @@ const EditGlobalRecipe = () => {
                 "steps": formattedSteps,
                 "image": image
             });
-            navigate("/my-recipes"); // Redirect to home page on successful creation
+            navigate("/admin"); // Redirect to home page on successful creation
         } catch (err) {
             setError(err.message || "Name may not be blank"); // Display error message from server
         }
