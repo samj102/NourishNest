@@ -12,6 +12,7 @@ import {
 import {getCSRFToken, parseTimeToSeconds} from "../utils.js";
 import { useNavigate } from 'react-router-dom';
 import IngredientInput from "../components/IngredientInput.jsx";
+import StepInput from "../components/StepInput.jsx";
 
 
 const CreateRecipe = () => {
@@ -20,7 +21,7 @@ const CreateRecipe = () => {
     const [calories, setCalories] = useState(null);
     const [tags, setTags] = useState(''); // Comma-separated string of tags
     const [ingredients, setIngredients] = useState([{ingredient: "", quantity: ""}]);
-    const [steps, setSteps] = useState([]);
+    const [steps, setSteps] = useState([{name: "", step: ""}]);
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
 
@@ -73,8 +74,12 @@ const CreateRecipe = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault();a
         setError(""); // Clear previous errors
+
+        // trim and filter steps and ingredients
+        const formattedIngredients = ingredients.filter(ingredient => ingredient.ingredient.trim() && ingredient.quantity.trim());
+        const formattedSteps = steps.filter(step => step.name.trim() && step.step.trim());
 
         // calculate vars
         const formattedTags = tags.split(',').map(tag => tag.trim()); // Convert comma-separated string to array
@@ -85,11 +90,11 @@ const CreateRecipe = () => {
             const response = await createRecipe({
                 "name": name,
                 "tags": formattedTags,
-                "ingredients": ingredients,
+                "ingredients": formattedIngredients,
                 "calories": calories,
                 "prep_time": prepTime,
                 "cook_time": cookTime,
-                "steps": steps,
+                "steps": formattedSteps,
                 "image": image
             });
             navigate("/my-recipes"); // Redirect to home page on successful creation
@@ -123,6 +128,26 @@ const CreateRecipe = () => {
         const newIngredients = [...ingredients];
         newIngredients.splice(index, 1);
         setIngredients(newIngredients);
+    }
+
+    const handleStepChange = (index, field, value) => {
+        const updatedSteps = steps.map((step, i) => {
+            if (i === index) {
+                return {...step, [field]: value};
+            }
+            return step;
+        });
+        setSteps(updatedSteps);
+    }
+
+    const addStep = () => {
+        setSteps([...steps, {name: "", step: ""}]);
+    }
+
+    const removeStep = (index) => {
+        const newSteps = [...steps];
+        newSteps.splice(index, 1);
+        setSteps(newSteps);
     }
 
 
@@ -167,6 +192,12 @@ const CreateRecipe = () => {
                                     <TextField {...params}/>
                                 )}
                             />
+
+                            {/* calories */}
+                            <Typography variant={'h6'}>
+                                Calories
+                            </Typography>
+                            <TextField id={'calories'} name={'calories'} onChange={(e) => setCalories(e.target.value)} />
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -287,6 +318,18 @@ const CreateRecipe = () => {
                                 Steps
                             </Typography>
 
+                            <Box>
+                                {steps.map((step, index) => (
+                                    <StepInput
+                                        key={index}
+                                        step={step}
+                                        onNameChange={(e) => handleStepChange(index, 'name', e.target.value)}
+                                        onStepChange={(e) => handleStepChange(index, 'step', e.target.value)}
+                                        onDelete={() => removeStep(index)}
+                                    />
+                                ))}
+                                <Button sx={{mt: 3}} variant={'contained'} onClick={addStep}>Add Step</Button>
+                            </Box>
                         </Stack>
                     </Grid>
                 </Grid>
