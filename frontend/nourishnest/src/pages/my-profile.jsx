@@ -1,4 +1,4 @@
-import {Box, Container, Typography, TextField, Button, Chip, Autocomplete, Stack} from "@mui/material";
+import {Box, Container, Typography, TextField, Button, Chip, Autocomplete, Stack, InputAdornment} from "@mui/material";
 import { useEffect, useState } from "react";
 import { getCSRFToken } from "../utils.js";
 
@@ -89,6 +89,9 @@ const MyProfile = () => {
                             value={personalInfo.height}
                             onChange={handleChange}
                             style={{ marginBottom: '10px' }}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">cm</InputAdornment>,
+                            }}
                         />
                         <TextField
                             label="Weight"
@@ -97,31 +100,28 @@ const MyProfile = () => {
                             value={personalInfo.weight}
                             onChange={handleChange}
                             style={{ marginBottom: '10px' }}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">lbs</InputAdornment>,
+                            }}
                         />
                     </Stack>
 
+                    <Autocomplete
+                        multiple
+                        options={tagSuggestions}
+                        value={personalInfo.restrictions}
+                        onChange={handleRestrictionsChange}
+                        renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                                <Chip key={index} label={option} {...getTagProps({ index })} />
+                            ))
+                        }
+                        renderInput={(params) => (
+                            <TextField {...params} label="Dietary Restrictions" placeholder="Add restrictions" />
+                        )}
+                    />
 
-
-                    <form onSubmit={handleUpdate} style={{ marginTop: '20px' }}>
-                        {/* ... other fields */}
-
-                        <Autocomplete
-                            multiple
-                            options={tagSuggestions} // Array of all possible dietary restrictions
-                            value={personalInfo.restrictions}
-                            onChange={handleRestrictionsChange}
-                            renderTags={(value, getTagProps) =>
-                                value.map((option, index) => (
-                                    <Chip key={index} label={option} {...getTagProps({ index })} />
-                                ))
-                            }
-                            renderInput={(params) => (
-                                <TextField {...params} label="Dietary Restrictions" placeholder="Add restrictions" />
-                            )}
-                        />
-
-                    </form>
-                    <Button type="submit" variant="contained" color="primary" sx={{mt:5}}>
+                    <Button type="submit" variant="contained" color="primary" sx={{mt: 5}}>
                         Update Information
                     </Button>
                 </form>
