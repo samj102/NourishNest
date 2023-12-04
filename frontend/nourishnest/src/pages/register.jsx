@@ -7,10 +7,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {useContext, useState} from "react";
 import { getCSRFToken } from "../utils.js";
+import {AuthContext} from "../components/authContext.jsx";
 
 const Register = () => {
+  const { isAuthenticated, login } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -42,23 +45,21 @@ const Register = () => {
       });
   }
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setError(""); // Clear previous errors
-
-  //   }
-  //   try {
-  //     const response = await registerUser({
-  //       email: email,
-  //       username: username,
-  //       password: password,
-  //     });
-  //     localStorage.setItem("isAuthenticated", "true");
-  //     navigate("/"); // Redirect to home page on successful login
-  //   } catch (err) {
-  //     setError(err.message || "Failed to register"); // Display error message from server
-  //   }
-  // };
+  const handleSubmit = async (e) => {
+     e.preventDefault();
+     setError(""); // Clear previous errors
+     try {
+       const response = await registerUser({
+         email: email,
+         username: username,
+         password: password,
+       });
+       login(response.username);
+       navigate("/my-recipes"); // Redirect to home page on successful login
+     } catch (err) {
+       setError(err.message || "Failed to register"); // Display error message from server
+     }
+   };
 
   return (
     <Container component={"main"} maxWidth={"sm"}>
@@ -71,7 +72,7 @@ const Register = () => {
           component={"form"}
           noValidate
           sx={{ mt: 1 }}
-          //   onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
         >
           {/* Email Input */}
           <TextField

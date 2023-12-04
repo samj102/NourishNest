@@ -17,18 +17,18 @@ const BrowseRecipesContainer = styled("div")({
 const BrowseRecipes = () => {
   const [recipeName, setRecipeName] = useState("");
   const [recipes, setRecipes] = useState([]);
+  const [error, setError] = useState("");
 
   function browseRecipes(recipe) {
     // csrf protection
 
-    return fetch("http://localhost:8000/api/globalrecipes", {
+    return fetch(`http://localhost:8000/api/globalrecipes?name=${recipe}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "X-CSRFToken": getCSRFToken(),
       },
-      body: JSON.stringify(recipe),
-      credentials: "include",
+      credentials: 'include',
     })
       .then((response) => {
         if (!response.ok) {
@@ -52,28 +52,12 @@ const BrowseRecipes = () => {
       });
   }
 
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/globalrecipes?name=${recipeName}`
-      );
-      browseRecipes(response.data);
-    } catch (error) {
-      console.error("Error fetching recipes:", error);
-
-      // Log more information about the error
-      if (error.response) {
-        // The request was made, but the server responded with a status code
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-        console.error("Response headers:", error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error("No response received:", error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error("Error setting up the request:", error.message);
-      }
+      const response = await browseRecipes({recipeName});
+    } catch (err) {
+      setError(err.message || "Incorrect Credentials"); // Display error message from server
     }
   };
 
