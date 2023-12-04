@@ -96,7 +96,7 @@ const BrowseRecipes = () => {
                 )}
                 <Button
                   component={RouterLink}
-                  to={`/view-recipe/${recipe.id}`}
+                  to={`/view-recipe-global/${recipe.id}`}
                   variant="outlined"
                   sx={{ mt: 2 }}
                 >
