@@ -81,10 +81,19 @@ const ViewRecipe = () => {
                 {/* Display Tags */}
                 <Paper sx={{ my: 2, p: 2 }}>
                     <ListSubheader>Tags</ListSubheader>
-                    {recipe.tags.filter(tag => tag.trim() !== "").map((tag, index) => (
-                        <Chip key={index} label={tag.tag} sx={{ mr: 1, mb: 1 }} />
-                    ))}
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {recipe.tags && recipe.tags.length > 0 ? (
+                            recipe.tags
+                                .filter(tag => tag.trim() !== "") // Filter out empty strings
+                                .map((tag, index) => (
+                                    <Chip key={index} label={tag} sx={{ mr: 1, mb: 1 }} />
+                                ))
+                        ) : (
+                            <Typography>No tags available</Typography>
+                        )}
+                    </Box>
                 </Paper>
+
 
 
                 <Grid container spacing={25} sx={{justifyContent: 'center', paddingTop: '3em'}}>
