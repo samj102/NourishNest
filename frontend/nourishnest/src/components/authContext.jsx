@@ -10,16 +10,19 @@ export const AuthProvider = ({children}) => {
         setIsAuthenticated(!!localStorage.getItem('isAuthenticated'));
     }, []);
 
-    const login = (username) => {
-        setUsername(username);
-        localStorage.setItem('username', username);
+    const login = (data) => {
+        setUsername(data.username);
+        localStorage.setItem('username', data.username);
         localStorage.setItem('isAuthenticated', "true");
+        localStorage.setItem('is_staff', data.is_staff);
         setIsAuthenticated(true);
     }
 
     const logout = () => {
         localStorage.removeItem('username');
         localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('is_staff');
+        localStorage.removeItem('plannerData');
         setIsAuthenticated(false);
     }
     return (

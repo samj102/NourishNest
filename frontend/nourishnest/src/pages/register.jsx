@@ -54,7 +54,7 @@ const Register = () => {
          username: username,
          password: password,
        });
-       login(response.username);
+       login(response);
        navigate("/my-recipes"); // Redirect to home page on successful login
      } catch (err) {
        setError(err.message || "Failed to register"); // Display error message from server

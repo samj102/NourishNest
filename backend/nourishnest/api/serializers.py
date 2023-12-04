@@ -20,18 +20,25 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
+
     def check_user(self, data):
         user = authenticate(username=data['username'], password=data['password'])
         if not user:
             raise serializers.ValidationError('User not found or Password is invalid')
+
         return user
+
+    def to_representation(self, data):
+        ret = super(UserLoginSerializer, self).to_representation(data)
+        ret['is_staff'] = data.is_staff
+        return ret
 
 
 class UserPersonalInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPersonalInfo
         fields = ('height', 'weight', 'restrictions')
-    
+
     def create(self, data):
         user = self.context['request'].user
         info = UserPersonalInfo.objects.create(user=user, **data)
@@ -48,13 +55,13 @@ class UserViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id','email', 'username', 'personal_info')
-        
+
 class SavedRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedRecipe
         fields = ('id', 'name', 'tags', 'ingredients', 'steps', 'calories', 'preptime', 'cooktime', 'image')
         read_only_fields = ('user',)
-    
+
 
 class ScheduledSerializer(serializers.ModelSerializer):
     recipe = SavedRecipeSerializer()
