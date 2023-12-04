@@ -56,7 +56,7 @@ const Login = () => {
         password: password,
       });
       console.log(response);
-      login(response.username);
+      login(response);
       navigate("/my-recipes"); // Redirect to home page on successful login
     } catch (err) {
       setError(err.message || "Incorrect Credentials"); // Display error message from server
